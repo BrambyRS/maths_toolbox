@@ -472,4 +472,22 @@ mod tests {
         assert_eq!(f_x.f, 16.0); // 3^2 + 2*3 + 1 = 16
         assert_eq!(f_x.df, 8.0); // f'(3) = 2*3 + 2 = 8
     }
+
+    #[test]
+    fn test_2d_quadratic_polynomial() {
+        // f(x, y) = x^2 + y^2 + 2xy
+        // df/dx = 2x + 2y
+        // df/dy = 2y + 2x
+        let mut x: DiffNum<f64> = DiffNum { f: 2.0, df: 1.0 }; // At x = 2
+        let mut y: DiffNum<f64> = DiffNum { f: 3.0, df: 0.0 }; // At y = 3
+        let f_dx: DiffNum<f64> = x.powi(2) + y.powi(2) + 2.0 * x * y;
+        assert_eq!(f_dx.f, 25.0); // 2^2 + 3^2 + 2*2*3 = 25
+        assert_eq!(f_dx.df, 10.0); // df/dx at (2,3) = 2*2 + 2*3 = 10
+
+        x = DiffNum { f: 2.0, df: 0.0 }; // At x = 2
+        y = DiffNum { f: 3.0, df: 1.0 }; // At y = 3
+        let f_dy: DiffNum<f64> = x.powi(2) + y.powi(2) + 2.0 * x * y;
+        assert_eq!(f_dy.f, 25.0); // 2^2 + 3^2 + 2*2*3 = 25
+        assert_eq!(f_dy.df, 10.0); // df/dy at (2,3) = 2*3 + 2*2 = 10
+    }
 }
