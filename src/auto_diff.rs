@@ -205,49 +205,49 @@ impl<T: std::ops::Div<Output = T> + Copy> std::ops::Div<T> for DiffNum<T> {
 }
 
 // Operations with scalars on the left
-// impl<T: std::ops::Add<Output = T> + Copy> std::ops::Add<DiffNum<T>> for T {
-//     type Output = DiffNum<T>;
+impl std::ops::Add<DiffNum<f64>> for f64 {
+    type Output = DiffNum<f64>;
 
-//     fn add(self, other: DiffNum<T>) -> DiffNum<T> {
-//         return DiffNum {
-//             f: self + other.f,
-//             df: other.df,
-//         };
-//     }
-// }
+    fn add(self, other: DiffNum<f64>) -> DiffNum<f64> {
+        return DiffNum {
+            f: self + other.f,
+            df: other.df,
+        };
+    }
+}
 
-// impl<T: std::ops::Sub<Output = T> + Copy> std::ops::Sub<DiffNum<T>> for T {
-//     type Output = DiffNum<T>;
+impl std::ops::Sub<DiffNum<f64>> for f64 {
+    type Output = DiffNum<f64>;
 
-//     fn sub(self, other: DiffNum<T>) -> DiffNum<T> {
-//         return DiffNum {
-//             f: self - other.f,
-//             df: -other.df,
-//         };
-//     }
-// }
+    fn sub(self, other: DiffNum<f64>) -> DiffNum<f64> {
+        return DiffNum {
+            f: self - other.f,
+            df: -other.df,
+        };
+    }
+}
 
-// impl<T: std::ops::Mul<Output = T> + Copy> std::ops::Mul<DiffNum<T>> for T {
-//     type Output = DiffNum<T>;
+impl std::ops::Mul<DiffNum<f64>> for f64 {
+    type Output = DiffNum<f64>;
 
-//     fn mul(self, other: DiffNum<T>) -> DiffNum<T> {
-//         return DiffNum {
-//             f: self * other.f,
-//             df: self * other.df,
-//         };
-//     }
-// }
+    fn mul(self, other: DiffNum<f64>) -> DiffNum<f64> {
+        return DiffNum {
+            f: self * other.f,
+            df: self * other.df,
+        };
+    }
+}
 
-// impl<T: std::ops::Div<Output = T> + Copy> std::ops::Div<DiffNum<T>> for T {
-//     type Output = DiffNum<T>;
+impl std::ops::Div<DiffNum<f64>> for f64 {
+    type Output = DiffNum<f64>;
 
-//     fn div(self, other: DiffNum<T>) -> DiffNum<T> {
-//         return DiffNum {
-//             f: self / other.f,
-//             df: (-self * other.df) / (other.f * other.f),
-//         };
-//     }
-// }
+    fn div(self, other: DiffNum<f64>) -> DiffNum<f64> {
+        return DiffNum {
+            f: self / other.f,
+            df: (-self * other.df) / (other.f * other.f),
+        };
+    }
+}
 
 // Comparison and Equality
 impl<T: Eq> Eq for DiffNum<T> {}
