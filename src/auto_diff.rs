@@ -303,79 +303,6 @@ mod tests {
         assert_eq!(c.df, 5.0);
     }
 
-    // Test subtraction for f64, f32
-    #[test]
-    fn test_subtraction_f64() {
-        let a: DiffNum<f64> = DiffNum { f: 5.0, df: 4.0 };
-        let b: DiffNum<f64> = DiffNum { f: 3.0, df: 1.0 };
-        let c: DiffNum<f64> = a - b;
-        assert_eq!(c.f, 2.0);
-        assert_eq!(c.df, 3.0);
-    }
-
-    #[test]
-    fn test_subtraction_f32() {
-        let a: DiffNum<f32> = DiffNum { f: 5.0, df: 4.0 };
-        let b: DiffNum<f32> = DiffNum { f: 3.0, df: 1.0 };
-        let c: DiffNum<f32> = a - b;
-        assert_eq!(c.f, 2.0);
-        assert_eq!(c.df, 3.0);
-    }
-
-    // Test Multiplication for f64, f32
-    #[test]
-    fn test_multiplication_f64() {
-        let a: DiffNum<f64> = DiffNum { f: 2.0, df: 1.0 };
-        let b: DiffNum<f64> = DiffNum { f: 3.0, df: 4.0 };
-        let c: DiffNum<f64> = a * b;
-        assert_eq!(c.f, 6.0);
-        assert_eq!(c.df, 11.0);
-    }
-
-    #[test]
-    fn test_multiplication_f32() {
-        let a: DiffNum<f32> = DiffNum { f: 2.0, df: 1.0 };
-        let b: DiffNum<f32> = DiffNum { f: 3.0, df: 4.0 };
-        let c: DiffNum<f32> = a * b;
-        assert_eq!(c.f, 6.0);
-        assert_eq!(c.df, 11.0);
-    }
-
-    // Test Division for f64, f32
-    #[test]
-    fn test_division_f64() {
-        let a: DiffNum<f64> = DiffNum { f: 6.0, df: 11.0 };
-        let b: DiffNum<f64> = DiffNum { f: 3.0, df: 4.0 };
-        let c: DiffNum<f64> = a / b;
-        assert_eq!(c.f, 2.0);
-        assert_eq!(c.df, (11.0 * 3.0 - 6.0 * 4.0) / (3.0 * 3.0));
-    }
-
-    #[test]
-    fn test_division_f32() {
-        let a: DiffNum<f32> = DiffNum { f: 6.0, df: 11.0 };
-        let b: DiffNum<f32> = DiffNum { f: 3.0, df: 4.0 };
-        let c: DiffNum<f32> = a / b;
-        assert_eq!(c.f, 2.0);
-        assert_eq!(c.df, (11.0 * 3.0 - 6.0 * 4.0) / (3.0 * 3.0));
-    }
-
-    #[test]
-    fn test_negation_f64() {
-        let a: DiffNum<f64> = DiffNum { f: 2.0, df: 3.0 };
-        let b: DiffNum<f64> = -a;
-        assert_eq!(b.f, -2.0);
-        assert_eq!(b.df, -3.0);
-    }
-
-    #[test]
-    fn test_negation_f32() {
-        let a: DiffNum<f32> = DiffNum { f: 2.0, df: 3.0 };
-        let b: DiffNum<f32> = -a;
-        assert_eq!(b.f, -2.0);
-        assert_eq!(b.df, -3.0);
-    }
-
     #[test]
     fn test_add_assign_f64() {
         let mut a: DiffNum<f64> = DiffNum { f: 2.0, df: 1.0 };
@@ -396,6 +323,25 @@ mod tests {
         }
         assert_eq!(a.f, 11.0);
         assert_eq!(a.df, 13.0);
+    }
+
+    // Test subtraction for f64, f32
+    #[test]
+    fn test_subtraction_f64() {
+        let a: DiffNum<f64> = DiffNum { f: 5.0, df: 4.0 };
+        let b: DiffNum<f64> = DiffNum { f: 3.0, df: 1.0 };
+        let c: DiffNum<f64> = a - b;
+        assert_eq!(c.f, 2.0);
+        assert_eq!(c.df, 3.0);
+    }
+
+    #[test]
+    fn test_subtraction_f32() {
+        let a: DiffNum<f32> = DiffNum { f: 5.0, df: 4.0 };
+        let b: DiffNum<f32> = DiffNum { f: 3.0, df: 1.0 };
+        let c: DiffNum<f32> = a - b;
+        assert_eq!(c.f, 2.0);
+        assert_eq!(c.df, 3.0);
     }
 
     #[test]
@@ -419,6 +365,26 @@ mod tests {
         assert_eq!(a.df, 1.0);
     }
 
+    // Test Multiplication for f64, f32
+    #[test]
+    fn test_multiplication_f64() {
+        let a: DiffNum<f64> = DiffNum { f: 2.0, df: 1.0 };
+        let b: DiffNum<f64> = DiffNum { f: 3.0, df: 4.0 };
+        let c: DiffNum<f64> = a * b;
+        assert_eq!(c.f, 6.0);
+        assert_eq!(c.df, 11.0);
+    }
+
+    #[test]
+    fn test_multiplication_f32() {
+        let a: DiffNum<f32> = DiffNum { f: 2.0, df: 1.0 };
+        let b: DiffNum<f32> = DiffNum { f: 3.0, df: 4.0 };
+        let c: DiffNum<f32> = a * b;
+        assert_eq!(c.f, 6.0);
+        assert_eq!(c.df, 11.0);
+    }
+
+    #[test]
     fn test_mul_assign_f64() {
         let mut a: DiffNum<f64> = DiffNum { f: 2.0, df: 1.0 };
         let b: DiffNum<f64> = DiffNum { f: 3.0, df: 4.0 };
@@ -438,6 +404,25 @@ mod tests {
         }
         assert_eq!(a.f, 18.0);
         assert_eq!(a.df, 49.0);
+    }
+
+    // Test Division for f64, f32
+    #[test]
+    fn test_division_f64() {
+        let a: DiffNum<f64> = DiffNum { f: 6.0, df: 11.0 };
+        let b: DiffNum<f64> = DiffNum { f: 3.0, df: 4.0 };
+        let c: DiffNum<f64> = a / b;
+        assert_eq!(c.f, 2.0);
+        assert_eq!(c.df, (11.0 * 3.0 - 6.0 * 4.0) / (3.0 * 3.0));
+    }
+
+    #[test]
+    fn test_division_f32() {
+        let a: DiffNum<f32> = DiffNum { f: 6.0, df: 11.0 };
+        let b: DiffNum<f32> = DiffNum { f: 3.0, df: 4.0 };
+        let c: DiffNum<f32> = a / b;
+        assert_eq!(c.f, 2.0);
+        assert_eq!(c.df, (11.0 * 3.0 - 6.0 * 4.0) / (3.0 * 3.0));
     }
 
     #[test]
@@ -460,6 +445,23 @@ mod tests {
         }
         assert_eq!(a.f, 2.0);
         assert!((a.df - 1.0).abs() < 1e-6);
+    }
+
+    // Tests for Negation for f64, f32
+    #[test]
+    fn test_negation_f64() {
+        let a: DiffNum<f64> = DiffNum { f: 2.0, df: 3.0 };
+        let b: DiffNum<f64> = -a;
+        assert_eq!(b.f, -2.0);
+        assert_eq!(b.df, -3.0);
+    }
+
+    #[test]
+    fn test_negation_f32() {
+        let a: DiffNum<f32> = DiffNum { f: 2.0, df: 3.0 };
+        let b: DiffNum<f32> = -a;
+        assert_eq!(b.f, -2.0);
+        assert_eq!(b.df, -3.0);
     }
 
     // Test polynomial differentiation
