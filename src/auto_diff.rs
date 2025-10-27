@@ -366,7 +366,7 @@ mod tests {
         // f(x) = x^2 + 2x + 1
         // f'(x) = 2x + 2
         let x: DiffNum<f64> = DiffNum { f: 3.0, df: 1.0 }; // At x = 3
-        let f_x: DiffNum<f64> = x.powi(2) + x * 2.0 + 1.0;
+        let f_x: DiffNum<f64> = x.powi(2) + 2.0 * x + 1.0;
         assert_eq!(f_x.f, 16.0); // 3^2 + 2*3 + 1 = 16
         assert_eq!(f_x.df, 8.0); // f'(3) = 2*3 + 2 = 8
     }
