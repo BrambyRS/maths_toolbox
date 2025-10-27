@@ -42,7 +42,7 @@ impl<T: std::fmt::Debug> std::fmt::Debug for DiffNum<T> {
 }
 
 // Froms for DiffNum from scalar types
-// From implementations for all primitive numeric types
+// From implementations for floats
 impl From<f64> for DiffNum<f64> {
     fn from(value: f64) -> Self {
         Self { f: value, df: 0.0 }
@@ -52,78 +52,6 @@ impl From<f64> for DiffNum<f64> {
 impl From<f32> for DiffNum<f32> {
     fn from(value: f32) -> Self {
         Self { f: value, df: 0.0 }
-    }
-}
-
-impl From<i8> for DiffNum<i8> {
-    fn from(value: i8) -> Self {
-        Self { f: value, df: 0 }
-    }
-}
-
-impl From<i16> for DiffNum<i16> {
-    fn from(value: i16) -> Self {
-        Self { f: value, df: 0 }
-    }
-}
-
-impl From<i32> for DiffNum<i32> {
-    fn from(value: i32) -> Self {
-        Self { f: value, df: 0 }
-    }
-}
-
-impl From<i64> for DiffNum<i64> {
-    fn from(value: i64) -> Self {
-        Self { f: value, df: 0 }
-    }
-}
-
-impl From<i128> for DiffNum<i128> {
-    fn from(value: i128) -> Self {
-        Self { f: value, df: 0 }
-    }
-}
-
-impl From<isize> for DiffNum<isize> {
-    fn from(value: isize) -> Self {
-        Self { f: value, df: 0 }
-    }
-}
-
-impl From<u8> for DiffNum<u8> {
-    fn from(value: u8) -> Self {
-        Self { f: value, df: 0 }
-    }
-}
-
-impl From<u16> for DiffNum<u16> {
-    fn from(value: u16) -> Self {
-        Self { f: value, df: 0 }
-    }
-}
-
-impl From<u32> for DiffNum<u32> {
-    fn from(value: u32) -> Self {
-        Self { f: value, df: 0 }
-    }
-}
-
-impl From<u64> for DiffNum<u64> {
-    fn from(value: u64) -> Self {
-        Self { f: value, df: 0 }
-    }
-}
-
-impl From<u128> for DiffNum<u128> {
-    fn from(value: u128) -> Self {
-        Self { f: value, df: 0 }
-    }
-}
-
-impl From<usize> for DiffNum<usize> {
-    fn from(value: usize) -> Self {
-        Self { f: value, df: 0 }
     }
 }
 
