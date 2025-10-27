@@ -278,6 +278,83 @@ impl DiffNum<f64> {
             df: (n as f64) * self.f.powi(n - 1) * self.df,
         };
     }
+
+    pub fn powf(self, n: f64) -> Self {
+        return Self {
+            f: self.f.powf(n),
+            df: n * self.f.powf(n - 1.0) * self.df,
+        };
+    }
+
+    pub fn sin(self) -> Self {
+        return Self {
+            f: self.f.sin(),
+            df: self.f.cos() * self.df,
+        };
+    }
+
+    pub fn cos(self) -> Self {
+        return Self {
+            f: self.f.cos(),
+            df: -self.f.sin() * self.df,
+        };
+    }
+
+    pub fn tan(self) -> Self {
+        return Self {
+            f: self.f.tan(),
+            df: (1.0 / self.f.cos().powi(2)) * self.df,
+        };
+    }
+
+    pub fn asin(self) -> Self {
+        return Self {
+            f: self.f.asin(),
+            df: (1.0 / (1.0 - self.f.powi(2)).sqrt()) * self.df,
+        };
+    }
+
+    pub fn acos(self) -> Self {
+        return Self {
+            f: self.f.acos(),
+            df: (-1.0 / (1.0 - self.f.powi(2)).sqrt()) * self.df,
+        };
+    }
+
+    pub fn atan(self) -> Self {
+        return Self {
+            f: self.f.atan(),
+            df: (1.0 / (1.0 + self.f.powi(2))) * self.df,
+        };
+    }
+
+    pub fn exp(self) -> Self {
+        return Self {
+            f: self.f.exp(),
+            df: self.f.exp() * self.df,
+        };
+    }
+
+    pub fn ln(self) -> Self {
+        return Self {
+            f: self.f.ln(),
+            df: (1.0 / self.f) * self.df,
+        };
+    }
+
+    pub fn log10(self) -> Self {
+        return Self {
+            f: self.f.log10(),
+            df: (1.0 / (self.f * std::f64::consts::LN_10)) * self.df,
+        };
+    }
+
+    pub fn sqrt(self) -> Self {
+        return Self {
+            f: self.f.sqrt(),
+            df: (0.5 / self.f.sqrt()) * self.df,
+        };
+    }
 }
 
 #[cfg(test)]
@@ -491,5 +568,123 @@ mod tests {
         let f_dy: DiffNum<f64> = x.powi(2) + y.powi(2) + 2.0 * x * y;
         assert_eq!(f_dy.f, 25.0); // 2^2 + 3^2 + 2*2*3 = 25
         assert_eq!(f_dy.df, 10.0); // df/dy at (2,3) = 2*3 + 2*2 = 10
+    }
+
+    // Tests for transcendental functions
+    #[test]
+    fn test_trig_funcs() {
+        let x: DiffNum<f64> = DiffNum {
+            f: std::f64::consts::PI / 4.0,
+            df: 1.0,
+        }; // 45 degrees
+
+        let sin_x = x.sin();
+        assert!((sin_x.f - (std::f64::consts::PI / 4.0).sin()).abs() < 1e-10);
+        assert!((sin_x.df - (std::f64::consts::PI / 4.0).cos()).abs() < 1e-10);
+
+        let cos_x = x.cos();
+        assert!((cos_x.f - (std::f64::consts::PI / 4.0).cos()).abs() < 1e-10);
+        assert!((cos_x.df + (std::f64::consts::PI / 4.0).sin()).abs() < 1e-10);
+
+        let tan_x = x.tan();
+        assert!((tan_x.f - (std::f64::consts::PI / 4.0).tan()).abs() < 1e-10);
+        assert!((tan_x.df - (1.0 / (std::f64::consts::PI / 4.0).cos().powi(2))).abs() < 1e-10);
+    }
+
+    #[test]
+    fn test_exponential_and_log_funcs() {
+        let x: DiffNum<f64> = DiffNum { f: 2.0, df: 1.0 };
+
+        let exp_x = x.exp();
+        assert!((exp_x.f - 2.0f64.exp()).abs() < 1e-10);
+        assert!((exp_x.df - 2.0f64.exp()).abs() < 1e-10);
+
+        let ln_x = x.ln();
+        assert!((ln_x.f - 2.0f64.ln()).abs() < 1e-10);
+        assert!((ln_x.df - (1.0 / 2.0)).abs() < 1e-10);
+
+        let log10_x = x.log10();
+        assert!((log10_x.f - 2.0f64.log10()).abs() < 1e-10);
+        assert!((log10_x.df - (1.0 / (2.0 * std::f64::consts::LN_10))).abs() < 1e-10);
+    }
+
+    #[test]
+    fn test_sqrt_func() {
+        let x: DiffNum<f64> = DiffNum { f: 4.0, df: 1.0 };
+
+        let sqrt_x = x.sqrt();
+        assert!((sqrt_x.f - 2.0).abs() < 1e-10);
+        assert!((sqrt_x.df - 0.25).abs() < 1e-10);
+    }
+
+    #[test]
+    fn test_powi_func() {
+        let x: DiffNum<f64> = DiffNum { f: 3.0, df: 1.0 };
+
+        let powi_x = x.powi(3);
+        assert!((powi_x.f - 27.0).abs() < 1e-10);
+        assert!((powi_x.df - 27.0).abs() < 1e-10); // 3 * 3^2 * 1 = 27
+    }
+
+    #[test]
+    fn test_powf_func() {
+        let x: DiffNum<f64> = DiffNum { f: 4.0, df: 1.0 };
+
+        let powf_x = x.powf(2.5);
+        assert!((powf_x.f - 32.0).abs() < 1e-10);
+        assert!((powf_x.df - 20.0).abs() < 1e-10); // 2.5 * 4^1.5 * 1 = 20
+    }
+
+    #[test]
+    fn test_arc_trig_funcs() {
+        let x: DiffNum<f64> = DiffNum { f: 0.5, df: 1.0 };
+
+        let asin_x = x.asin();
+        assert!((asin_x.f - 0.5f64.asin()).abs() < 1e-10);
+        assert!((asin_x.df - (1.0 / (1.0 - 0.5f64.powi(2)).sqrt())).abs() < 1e-10);
+
+        let acos_x = x.acos();
+        assert!((acos_x.f - 0.5f64.acos()).abs() < 1e-10);
+        assert!((acos_x.df + (1.0 / (1.0 - 0.5f64.powi(2)).sqrt())).abs() < 1e-10);
+
+        let atan_x = x.atan();
+        assert!((atan_x.f - 0.5f64.atan()).abs() < 1e-10);
+        assert!((atan_x.df - (1.0 / (1.0 + 0.5f64.powi(2)))).abs() < 1e-10);
+    }
+
+    #[test]
+    fn test_chain_rule() {
+        // f(x) = sin(x^2)
+        // f'(x) = cos(x^2) * 2x
+        let x: DiffNum<f64> = DiffNum {
+            f: std::f64::consts::PI / 4.0,
+            df: 1.0,
+        };
+        let f_x: DiffNum<f64> = (x.powi(2)).sin();
+        assert!((f_x.f - (std::f64::consts::PI / 4.0).powi(2).sin()).abs() < 1e-10);
+        assert!(
+            (f_x.df
+                - (std::f64::consts::PI / 4.0).powi(2).cos() * 2.0 * (std::f64::consts::PI / 4.0))
+                .abs()
+                < 1e-10
+        );
+    }
+
+    #[test]
+    fn test_chain_rule_multiple_vars() {
+        // f(x, y) = exp(x * y)
+        // df/dx = y * exp(x * y)
+        // df/dy = x * exp(x * y)
+        let mut x: DiffNum<f64> = DiffNum { f: 1.0, df: 1.0 }; // At x = 1
+        let mut y: DiffNum<f64> = DiffNum { f: 2.0, df: 0.0 }; // At y = 2
+        let f_dx: DiffNum<f64> = (x * y).exp();
+        assert!((f_dx.f - (1.0f64 * 2.0f64).exp()).abs() < 1e-10);
+        assert!((f_dx.df - (2.0f64 * (1.0f64 * 2.0f64).exp())).abs() < 1e-10);
+
+        x = DiffNum { f: 1.0, df: 0.0 }; // At x = 1
+        y = DiffNum { f: 2.0, df: 1.0 }; // At y = 2
+        let f_dy: DiffNum<f64> = (x * y).exp();
+        assert!((f_dy.f - (1.0f64 * 2.0f64).exp()).abs() < 1e-10);
+        assert!((f_dy.df - (1.0f64 * (1.0f64 * 2.0f64).exp())).abs() < 1e-10);
     }
 }
