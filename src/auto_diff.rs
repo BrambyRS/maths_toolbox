@@ -469,7 +469,7 @@ mod tests {
             a *= b;
         }
         assert_eq!(a.f, 18.0);
-        assert_eq!(a.df, 49.0);
+        assert_eq!(a.df, 57.0);
     }
 
     #[test]
@@ -480,7 +480,7 @@ mod tests {
             a *= b;
         }
         assert_eq!(a.f, 18.0);
-        assert_eq!(a.df, 49.0);
+        assert_eq!(a.df, 57.0);
     }
 
     // Test Division for f64, f32
@@ -510,7 +510,7 @@ mod tests {
             a /= b;
         }
         assert_eq!(a.f, 2.0);
-        assert!((a.df - 1.0).abs() < 1e-10);
+        assert!((a.df - (1.0 / 9.0)).abs() < 1e-10);
     }
 
     #[test]
@@ -521,7 +521,7 @@ mod tests {
             a /= b;
         }
         assert_eq!(a.f, 2.0);
-        assert!((a.df - 1.0).abs() < 1e-6);
+        assert!((a.df - (1.0 / 9.0)).abs() < 1e-6);
     }
 
     // Tests for Negation for f64, f32
